@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+#ifndef LIST
+#define LIST
+typedef int ElementType;
+
+
+class Node
+{
+  public :
+  
+    ElementType data;
+    Node * next;
+    Node();
+    Node(ElementType x, Node * link = 0)
+      :data(x), next(link)
+     {}
+
+};
+
+
+
+class List
+{
+ 
+  public :
+  List(); //constructor
+  ~List(); // destructor
+  List(const List & original);// copy constructor
+  bool Empty(); 
+  void InsertAtEnd(ElementType x);
+  void display(ostream & out);
+  void Remove(ElementType x);
+  int SizeOf(); 
+  int Sum(); 
+  double Average(); 
+  void Menu();
+  
+  double Ave;
+  ElementType count = 0;
+  ElementType Sigma;
+  ElementType PutIn = 0;
+  
+   
+  const List & operator = (const List & rightHandSide);
+
+  private :
+    Node* last;
+    Node* first;
+
+};
+
+
+
+
+#endif
