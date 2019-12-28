@@ -1,0 +1,277 @@
+#include <iostream>
+#include "List.h"
+using namespace std;
+
+
+//Default Constructor for List
+List::List()
+{
+};
+
+
+//Default Constructor for Node
+Node::Node()
+{
+};
+
+//List Deconstructor
+List::~List()
+{
+  Node* current = first;
+  while( current != 0 ) 
+  {
+    Node* next = current->next;
+    delete current;
+    current = next;
+  }
+
+  first = last = 0;
+
+
+};
+
+
+
+
+bool List::Empty()
+{
+  return count == 0;
+}
+
+
+/*Displaying the contents of the list with two different states
+1. Empty
+2. With Data
+*/
+void List::display(std::ostream & out) 
+{
+  Node * current = first;
+  if(current == NULL)
+      {
+        cout << "List is Empty";
+      }
+  else
+  {
+    while (current)
+    {
+        cout<<current->data<<" , ";
+        current = current->next;
+    }
+    cout << "End of List";
+  }
+
+}
+
+/*Inseting data at the end of the list with two conditions
+1. If the list is empty the first and last node are the same
+2. If the list has data, then go to the end of the list and insert, and set the new node * next as the last * next
+*/
+void List::InsertAtEnd(ElementType x)
+{
+ 
+  Node* temp = new Node();
+    temp -> data = x;
+    temp -> next = NULL;
+
+  if(Empty())
+  {
+    last = first = temp;
+    count++;
+  }
+  else
+  {
+     last -> next = temp;
+     last = last -> next;
+    count++;
+  }
+
+}
+
+// Removing any number in the list if it exists
+void List::Remove(ElementType x)
+{
+  Node *temp, *ToBeDeleted;
+  temp = NULL;
+  /*Let the temp pointer ToBeDeleted be equal to the first node.
+    Traverse through the List using next
+
+  */
+  for (ToBeDeleted = first; ToBeDeleted != NULL; temp = ToBeDeleted, ToBeDeleted = ToBeDeleted->next) 
+  {
+    if (ToBeDeleted->data == x) 
+    {  
+      if (temp == NULL) {
+        
+        first = ToBeDeleted->next;
+      } 
+      else 
+      {    
+        temp->next = ToBeDeleted->next;
+      }
+      delete ToBeDeleted;
+      return;
+    }
+  }
+  cout << x << " is not a part of the list" << endl;
+  return;
+}
+
+
+  /*if( ToBeDeleted -> next -> data != x)
+  {
+    ToBeDeleted = ToBeDeleted -> next;
+  }
+  else if(ToBeDeleted -> next -> data == x)
+  {
+    ToBeDeleted = temp -> next;
+    temp->next = ToBeDeleted->next;
+    
+  }
+  delete ToBeDeleted;
+  */
+int List::SizeOf()
+{
+  Node * temp;
+  temp = first;
+  while(temp != NULL)
+  {
+    count++;
+    temp = temp -> next;
+  }
+  return count;
+}
+
+int List::Sum()
+{
+  
+  Node * temp;
+  temp = first;
+  ElementType hold = 0;
+  Sigma = 0;
+
+  while(temp != NULL)
+  {
+    hold = temp -> data;
+    Sigma = Sigma + hold;
+    temp = temp -> next;
+  }
+
+  return Sigma;
+
+}
+
+double List::Average()
+{
+  Node * temp;
+  temp = first;
+  count = 0;
+  ElementType hold = 0;
+  Sigma = 0;
+  while(temp != NULL)
+  {
+    hold = temp -> data;
+    Sigma = Sigma + hold;
+    count++;
+    temp = temp -> next; 
+  }
+  
+  if(count == 0)
+  {
+    Ave = 0;
+  }
+  else
+  {
+  Ave = (Sigma / count);
+  }
+
+
+  return Ave;
+
+}
+
+void List::Menu()
+{
+  
+  ElementType x = 0;
+  ElementType insert = 0;
+
+  cout << "Linked List Maker\n" << endl;
+  cout << "Select an Option(Type a Number)\n";
+  cout << "Option 1 : Insert into List" << endl;
+  cout << "Option 2 : Delete a number from the list" << endl;
+  cout << "Option 3 : Display all numbers of the list" << endl;
+  cout << "Option 4 : Sum all the numbers of the list " << endl;
+  cout << "Option 5 : Average of the numbers of the list" << endl;
+  cout << "Option 6 : Exit Program " <<"\n" <<endl;
+  
+do{
+  watermelon :
+  cin >> x;
+  if(cin.fail())
+  {
+    cin.clear();
+    cin.ignore();
+    cout << "That is not a valid input try again" << endl;
+  }
+  if(!cin.fail())
+  {
+  switch (x) 
+  {
+    case 1 : 
+    cout << "Number to Insert : ";
+    cin >> insert;
+      if(cin.fail())
+      {
+        cin.clear();
+        cin.ignore();
+        cout << "That is not a valid input try again" << endl;
+     }
+      else
+      {
+      InsertAtEnd(insert);
+      insert = 0;
+      }
+    break;
+    case 2 :
+    cout << "Number to Delete : ";
+    cin >> insert;
+  /*   if(cin.fail())
+      {
+        x = 0;
+        insert = 0;
+        cin.clear();
+        cin.ignore();
+        cout << "That is not a valid input try again" << endl;
+        goto watermelon;
+     }
+      else
+      {
+      InsertAtEnd(insert);
+      insert = 0;
+      }
+      */
+    Remove(insert);
+    insert = 0;
+    break;
+    case 3 :
+    display(cout);
+    break;
+    case 4 :
+    cout <<"The Sum of all the numbers is : " << Sum() << "\n";
+    break;
+    case 5 : 
+    cout << "The Average of all the numbers is : " << Average() << "\n";
+    break;
+    case 6 :
+    cout<< "Ending Program";
+    break;
+    default :
+    cout << "That is not a valid menu option";
+    break;
+  }
+
+   }
+      }while(x!=6);
+
+  }
+  
